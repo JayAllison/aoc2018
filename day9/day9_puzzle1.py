@@ -1,4 +1,4 @@
-from collections import defaultdict
+from collections import deque
 import datetime
 import pprint
 
@@ -6,43 +6,26 @@ import pprint
 pp = pprint.PrettyPrinter()
 
 
-def place_marble(current, marble, circle):
-    score = 0
-    # initial condition
-    if not circle and marble == 0:
-        insertion_point = 0
-        circle = [0]
-    # initial condition
-    elif marble == 1:
-        insertion_point = 1
-        circle.append(1)
-    # if the new marble is a multiple of 23, then don't place it - score it plus the marble CCW 7 from the current
-    elif marble % 23 == 0:
-        score += marble
-        deletion_point = current - 7
-        if deletion_point < 0:
-            deletion_point += len(circle)
-        score += circle[deletion_point]
-        del circle[deletion_point]
-        insertion_point = deletion_point
-        if insertion_point > len(circle):
-            insertion_point = 0
-    # insert the marble according to the rules - between CW 1 and CCW 2
-    else:
-        insertion_point = current + 2
-        if insertion_point > len(circle):
-            insertion_point -= len(circle)
-        circle.insert(insertion_point, marble)
-    return insertion_point, score, circle
-
-
 def play_marbles(players, marbles):
-    circle = []
-    current = 0
-    scores = defaultdict(int)
-    for marble in range(marbles+1):
-        current, score, circle = place_marble(current, marble, circle)
-        scores[marble % players] += score
+    # http://www.monitis.com/blog/python-performance-tips-part-1/
+    # deque is way better for insertions/deletions than list for large data sets
+    circle = deque([0, 1])
+    scores = [0 for _player in range(players)]
+    for marble in range(2, marbles+1):
+        score = 0
+        # initial condition
+        # if the new marble is a multiple of 23, then don't place it - score it plus the marble CCW 7 from the current
+        if marble % 23 == 0:
+            score += marble
+            circle.rotate(7)
+            score += circle.pop()
+            circle.rotate(-1)
+        # insert the marble according to the rules - between CW 1 and CCW 2
+        else:
+            circle.rotate(-1)
+            circle.append(marble)
+        if score:
+            scores[marble % players] += score
     return scores
 
 
@@ -52,13 +35,13 @@ games = [(9, 25, 32),
          (17, 1104, 2764),
          (21, 6111, 54718),
          (30, 5807, 37305),
-         (411, 72059, None),
-         (411, 72059*100, None)]
+         (411, 72059, 429943),    # this is Puzzle 1
+         (411, 72059*100, None)]  # this is Puzzle 2
 
 for game in games:
     before = datetime.datetime.now()
     player_scores = play_marbles(game[0], game[1])
-    high_score = max(player_scores, key=player_scores.get)
+    high_score = max(player_scores)
     elapsed = datetime.datetime.now() - before
-    success_string = " - success!" if game[2] and player_scores[high_score] == game[2] else ""
-    print(f'For Game {game}, high score is {player_scores[high_score]}{success_string}, calculated in {elapsed}')
+    success_string = " - success!" if game[2] and high_score == game[2] else ""
+    print(f'For Game {game}, high score is {high_score}{success_string}, calculated in {elapsed}')

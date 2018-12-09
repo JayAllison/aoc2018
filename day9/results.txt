@@ -1,4 +1,4 @@
-My first (slow) solution
+My first (slow) solution, using a list
 
 For Game (9, 25, 32), high score is 32 - success!, calculated in 0:00:00
 For Game (10, 1618, 8317), high score is 8317 - success!, calculated in 0:00:00
@@ -8,3 +8,16 @@ For Game (21, 6111, 54718), high score is 54718 - success!, calculated in 0:00:0
 For Game (30, 5807, 37305), high score is 37305 - success!, calculated in 0:00:00.015660
 For Game (411, 72059, None), high score is 429943, calculated in 0:00:00.417958
 For Game (411, 7205900, None), high score is 3615691746, calculated in 2:37:37.987578
+
+My second (fast) solution, using a deque:
+
+For Game (9, 25, 32), high score is 32 - success!, calculated in 0:00:00.001004
+For Game (10, 1618, 8317), high score is 8317 - success!, calculated in 0:00:00
+For Game (13, 7999, 146373), high score is 146373 - success!, calculated in 0:00:00.002900
+For Game (17, 1104, 2764), high score is 2764 - success!, calculated in 0:00:00.000999
+For Game (21, 6111, 54718), high score is 54718 - success!, calculated in 0:00:00.001526
+For Game (30, 5807, 37305), high score is 37305 - success!, calculated in 0:00:00.001156
+For Game (411, 72059, 429943), high score is 429943 - success!, calculated in 0:00:00.024721
+For Game (411, 7205900, None), high score is 3615691746, calculated in 0:00:02.185406
+
+Thanks to http://www.monitis.com/blog/python-performance-tips-part-1/ for the tip!
