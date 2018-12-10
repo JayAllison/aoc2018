@@ -35,8 +35,8 @@ games = [(9, 25, 32),
          (17, 1104, 2764),
          (21, 6111, 54718),
          (30, 5807, 37305),
-         (411, 72059, 429943),    # this is Puzzle 1
-         (411, 72059*100, None)]  # this is Puzzle 2
+         (411, 72059, 429943),          # this is Puzzle 1
+         (411, 72059*100, 3615691746)]  # this is Puzzle 2
 
 for game in games:
     before = datetime.datetime.now()
