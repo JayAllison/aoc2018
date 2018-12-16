@@ -23,7 +23,6 @@ class Point(object):
 
 
 def move_stars_one_step(points: List[Point]):
-    # map(lambda p: p.move(), points)  # why didn't this work???
     for p in points:
         p.move()
 
