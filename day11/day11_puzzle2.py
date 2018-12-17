@@ -20,7 +20,7 @@ class PowerGrid(object):
         # lay out the grid and calculate the power for each cell - our indexing is 0 but the puzzle's indexing is 1
         self.grid = [[self.calculate_point_power(x+1, y+1) for y in range(Y_RANGE)] for x in range(X_RANGE)]
 
-    @lru_cache(maxsize=300*300*300)
+    @lru_cache(maxsize=300*300*300)  # after thinking about it, I'm not sure this helps at all...
     def calculate_square_power(self, x, y, square_size):
         # sum the grid values across the specified square
         return sum([self.grid[x+x1][y+y1] for x1 in range(square_size) for y1 in range(square_size)])
